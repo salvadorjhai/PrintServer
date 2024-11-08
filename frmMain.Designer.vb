@@ -28,6 +28,7 @@ Partial Class frmMain
         Me.btnClose = New System.Windows.Forms.Button()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.chkAutoStart = New System.Windows.Forms.CheckBox()
         Me.cboPrinter3 = New System.Windows.Forms.ComboBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.cboPrinter2 = New System.Windows.Forms.ComboBox()
@@ -36,45 +37,52 @@ Partial Class frmMain
         Me.txtPort = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.txtLogs = New System.Windows.Forms.RichTextBox()
+        Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.btnQuit = New System.Windows.Forms.Button()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.chkAutoStart = New System.Windows.Forms.CheckBox()
-        Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
         Me.SuspendLayout()
         '
         'NotifyIcon1
         '
         Me.NotifyIcon1.Text = "NotifyIcon1"
-        Me.NotifyIcon1.Visible = True
         '
         'btnStart
         '
-        Me.btnStart.Location = New System.Drawing.Point(219, 200)
+        Me.btnStart.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnStart.Location = New System.Drawing.Point(272, 243)
         Me.btnStart.Name = "btnStart"
         Me.btnStart.Size = New System.Drawing.Size(75, 28)
-        Me.btnStart.TabIndex = 2
+        Me.btnStart.TabIndex = 7
         Me.btnStart.Text = "&Start"
         Me.btnStart.UseVisualStyleBackColor = True
         '
         'btnClose
         '
-        Me.btnClose.Location = New System.Drawing.Point(300, 200)
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Location = New System.Drawing.Point(353, 243)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(75, 28)
-        Me.btnClose.TabIndex = 3
-        Me.btnClose.Text = "&Close"
+        Me.btnClose.TabIndex = 8
+        Me.btnClose.Text = "&Hide"
         Me.btnClose.UseVisualStyleBackColor = True
         '
         'TabControl1
         '
+        Me.TabControl1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Location = New System.Drawing.Point(12, 12)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(368, 184)
+        Me.TabControl1.Size = New System.Drawing.Size(421, 225)
         Me.TabControl1.TabIndex = 4
         '
         'TabPage1
@@ -91,10 +99,20 @@ Partial Class frmMain
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(360, 158)
+        Me.TabPage1.Size = New System.Drawing.Size(413, 199)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "General"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'chkAutoStart
+        '
+        Me.chkAutoStart.AutoSize = True
+        Me.chkAutoStart.Location = New System.Drawing.Point(100, 124)
+        Me.chkAutoStart.Name = "chkAutoStart"
+        Me.chkAutoStart.Size = New System.Drawing.Size(76, 17)
+        Me.chkAutoStart.TabIndex = 5
+        Me.chkAutoStart.Text = "Auto Start"
+        Me.chkAutoStart.UseVisualStyleBackColor = True
         '
         'cboPrinter3
         '
@@ -102,7 +120,7 @@ Partial Class frmMain
         Me.cboPrinter3.Location = New System.Drawing.Point(100, 96)
         Me.cboPrinter3.Name = "cboPrinter3"
         Me.cboPrinter3.Size = New System.Drawing.Size(240, 21)
-        Me.cboPrinter3.TabIndex = 10
+        Me.cboPrinter3.TabIndex = 4
         '
         'Label4
         '
@@ -119,7 +137,7 @@ Partial Class frmMain
         Me.cboPrinter2.Location = New System.Drawing.Point(100, 68)
         Me.cboPrinter2.Name = "cboPrinter2"
         Me.cboPrinter2.Size = New System.Drawing.Size(240, 21)
-        Me.cboPrinter2.TabIndex = 8
+        Me.cboPrinter2.TabIndex = 3
         '
         'Label3
         '
@@ -136,14 +154,14 @@ Partial Class frmMain
         Me.cboPrinter1.Location = New System.Drawing.Point(100, 40)
         Me.cboPrinter1.Name = "cboPrinter1"
         Me.cboPrinter1.Size = New System.Drawing.Size(240, 21)
-        Me.cboPrinter1.TabIndex = 6
+        Me.cboPrinter1.TabIndex = 2
         '
         'txtPort
         '
         Me.txtPort.Location = New System.Drawing.Point(100, 12)
         Me.txtPort.Name = "txtPort"
         Me.txtPort.Size = New System.Drawing.Size(80, 21)
-        Me.txtPort.TabIndex = 5
+        Me.txtPort.TabIndex = 1
         '
         'Label1
         '
@@ -163,40 +181,54 @@ Partial Class frmMain
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "Printer 1:"
         '
-        'btnQuit
-        '
-        Me.btnQuit.Location = New System.Drawing.Point(12, 200)
-        Me.btnQuit.Name = "btnQuit"
-        Me.btnQuit.Size = New System.Drawing.Size(75, 28)
-        Me.btnQuit.TabIndex = 5
-        Me.btnQuit.Text = "&Quit"
-        Me.btnQuit.UseVisualStyleBackColor = True
-        '
-        'chkAutoStart
-        '
-        Me.chkAutoStart.AutoSize = True
-        Me.chkAutoStart.Location = New System.Drawing.Point(100, 124)
-        Me.chkAutoStart.Name = "chkAutoStart"
-        Me.chkAutoStart.Size = New System.Drawing.Size(76, 17)
-        Me.chkAutoStart.TabIndex = 11
-        Me.chkAutoStart.Text = "Auto Start"
-        Me.chkAutoStart.UseVisualStyleBackColor = True
-        '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.txtLogs)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(360, 158)
+        Me.TabPage2.Size = New System.Drawing.Size(413, 199)
         Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "About"
+        Me.TabPage2.Text = "Logs"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'txtLogs
+        '
+        Me.txtLogs.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtLogs.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.txtLogs.Font = New System.Drawing.Font("Courier New", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLogs.Location = New System.Drawing.Point(3, 3)
+        Me.txtLogs.Name = "txtLogs"
+        Me.txtLogs.Size = New System.Drawing.Size(407, 193)
+        Me.txtLogs.TabIndex = 0
+        Me.txtLogs.Text = ""
+        Me.txtLogs.WordWrap = False
+        '
+        'TabPage3
+        '
+        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage3.Size = New System.Drawing.Size(360, 158)
+        Me.TabPage3.TabIndex = 2
+        Me.TabPage3.Text = "About"
+        Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'btnQuit
+        '
+        Me.btnQuit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnQuit.Location = New System.Drawing.Point(12, 243)
+        Me.btnQuit.Name = "btnQuit"
+        Me.btnQuit.Size = New System.Drawing.Size(75, 28)
+        Me.btnQuit.TabIndex = 6
+        Me.btnQuit.Text = "&Quit"
+        Me.btnQuit.UseVisualStyleBackColor = True
         '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(391, 241)
+        Me.ClientSize = New System.Drawing.Size(444, 282)
         Me.Controls.Add(Me.btnQuit)
         Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.btnClose)
@@ -208,6 +240,7 @@ Partial Class frmMain
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
+        Me.TabPage2.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -229,4 +262,6 @@ Partial Class frmMain
     Friend WithEvents ToolTip1 As ToolTip
     Friend WithEvents chkAutoStart As CheckBox
     Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents TabPage3 As TabPage
+    Friend WithEvents txtLogs As RichTextBox
 End Class
