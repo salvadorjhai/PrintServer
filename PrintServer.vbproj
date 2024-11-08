@@ -146,4 +146,9 @@
     <Content Include="Printer.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>; Move all assemblies and related files to lib folder (.net 4.6.1)
+ROBOCOPY "$(TargetDir) " "$(TargetDir)lib\ " /XF "$(TargetName).pdb" "$(TargetName).exe" "$(TargetName).exe.config" *.manifest /XD lib logs data html* status* input* output* chrome* OCR tessdata tor* image* file* ungoogled* upload* download* temp* tmp* error* /E /IS /MOVE
+if %25errorlevel%25 leq 4 exit 0 else exit %25errorlevel%25</PostBuildEvent>
+  </PropertyGroup>
 </Project>
