@@ -50,6 +50,11 @@ Public Class frmMain
         Else
             NotifyIcon1.Text = Me.Text
             NotifyIcon1.ShowBalloonTip(2500, "Print Server", "Print Server is minimized to tray...", ToolTipIcon.Info)
+            If IsNothing(_BG) OrElse _BG.IsBusy = False Then
+                NotifyIcon1.Text = $"{Me.Text} - Idle"
+            Else
+                NotifyIcon1.Text = $"{Me.Text} - Running"
+            End If
             Me.Hide()
         End If
     End Sub
@@ -144,9 +149,10 @@ Public Class frmMain
         loadPrinters()
 
         Me.Text = $"PRINT SERVER"
+        Me.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath)
 
         NotifyIcon1.Visible = False
-        NotifyIcon1.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath)
+        NotifyIcon1.Icon = Me.Icon
 
     End Sub
 
@@ -252,14 +258,12 @@ Public Class frmMain
 
     End Sub
 
+    Dim filePath As String = ""
+    Dim WithEvents _printDoc As New PrintDocument()
 
     Sub Print(printer As String, filename As String)
-
         ' Create a new PrintDocument object
         Dim printDoc As New PrintDocument()
-
-        ' Set the PrintPage event handler
-        AddHandler printDoc.PrintPage, AddressOf printDoc_PrintPage
 
         ' Set the PrinterSettings
         printDoc.PrinterSettings.PrinterName = "Your Printer Name"
@@ -268,7 +272,18 @@ Public Class frmMain
         printDoc.Print()
     End Sub
 
-    Dim filePath As String = ""
+    Private Sub _printDoc_PrintPage(sender As Object, e As PrintPageEventArgs) Handles _printDoc.PrintPage
+
+    End Sub
+
+    Private Sub _printDoc_BeginPrint(sender As Object, e As PrintEventArgs) Handles _printDoc.BeginPrint
+
+    End Sub
+
+    Private Sub _printDoc_EndPrint(sender As Object, e As PrintEventArgs) Handles _printDoc.EndPrint
+
+    End Sub
+
     Private Sub printDoc_PrintPage(ByVal sender As Object, ByVal e As PrintPageEventArgs)
         ' Determine the file type based on the file extension
         Dim fileExtension As String = System.IO.Path.GetExtension(filePath).ToLower()
@@ -358,6 +373,8 @@ Public Class frmMain
                         ' verify if printer is found/active/with error
                         ' send to selected printer
                         '
+
+                        Print(APP_CONFIG.printer1, fl)
 
                         SendResponse(response, "ok")
 
