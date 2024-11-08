@@ -373,8 +373,7 @@ Public Class frmMain
                         ' verify if printer is found/active/with error
                         ' send to selected printer
                         '
-
-                        Print(APP_CONFIG.printer1, fl)
+                        'Print(APP_CONFIG.printer1, fl)
 
                         SendResponse(response, "ok")
 
