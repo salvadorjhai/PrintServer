@@ -12,7 +12,7 @@
 - [ ] Printing to selected printer (TXT)
 
 **Sample Endpoint:**
-http://localhost:49956/?filename=C:\Data.pdf
+http://localhost:49956/?filename=C:\Data.pdf&printer=1
 
 **Response:**
 - **not found** - if filename not found locally
