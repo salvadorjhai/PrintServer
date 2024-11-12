@@ -17,5 +17,6 @@ http://localhost:49956/?filename=C:\Data.pdf&printer=1
 **Response:**
 - **not found** - if filename not found locally
 - **ok** - file received
+- **ok** - failed to print (check logs for info)
 - **ready** - if no parameters
 

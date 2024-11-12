@@ -210,7 +210,7 @@ Public Class frmMain
         End If
 
         If _BG.IsBusy = False Then
-            If String.IsNullOrWhiteSpace(cboPrinter1.Text) AndAlso String.IsNullOrWhiteSpace(cboPrinter2.Text) AndAlso String.IsNullOrWhiteSpace(cboPrinter3.Text) Then
+            If cboPrinter1.SelectedIndex < 0 OrElse cboPrinter2.SelectedIndex < 0 OrElse cboPrinter1.SelectedIndex < 0 Then
                 MsgBox("Please select at least 1 printer before starting", vbExclamation)
                 Return
             End If
@@ -383,18 +383,26 @@ Public Class frmMain
                             pr = "1"
                         End If
 
-                        If pr = "1" Then
-                            Print(APP_CONFIG.printer1, fl)
+                        Try
+                            If pr = "1" Then
+                                Print(APP_CONFIG.printer1, fl)
 
-                        ElseIf pr = "2" Then
-                            Print(APP_CONFIG.printer2, fl)
+                            ElseIf pr = "2" Then
+                                Print(APP_CONFIG.printer2, fl)
 
-                        ElseIf pr = "3" Then
-                            Print(APP_CONFIG.printer3, fl)
+                            ElseIf pr = "3" Then
+                                Print(APP_CONFIG.printer3, fl)
 
-                        End If
+                            End If
 
-                        SendResponse(response, "ok")
+                            SendResponse(response, "ok")
+
+                        Catch ex As Exception
+                            WriteToLog(ex)
+                            SendResponse(response, "failed")
+
+                        End Try
+
 
                     End If
                 Else

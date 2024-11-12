@@ -209,7 +209,7 @@ Partial Class frmMain
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(360, 158)
+        Me.TabPage3.Size = New System.Drawing.Size(413, 199)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "About"
         Me.TabPage3.UseVisualStyleBackColor = True
