@@ -8,6 +8,7 @@ Imports System.Text
 Imports System.Net.Sockets
 Imports System.ComponentModel
 Imports System.IO.Ports
+Imports PdfiumViewer
 
 Public Class frmMain
 
@@ -258,41 +259,26 @@ Public Class frmMain
 
     End Sub
 
-    Dim filePath As String = ""
     Dim WithEvents _printDoc As New PrintDocument()
 
     Sub Print(printer As String, filename As String)
-        ' Create a new PrintDocument object
-        Dim printDoc As New PrintDocument()
-
-        ' Set the PrinterSettings
-        printDoc.PrinterSettings.PrinterName = "Your Printer Name"
-
-        ' Print the document
-        printDoc.Print()
-    End Sub
-
-    Private Sub _printDoc_PrintPage(sender As Object, e As PrintPageEventArgs) Handles _printDoc.PrintPage
-
-    End Sub
-
-    Private Sub _printDoc_BeginPrint(sender As Object, e As PrintEventArgs) Handles _printDoc.BeginPrint
-
-    End Sub
-
-    Private Sub _printDoc_EndPrint(sender As Object, e As PrintEventArgs) Handles _printDoc.EndPrint
-
-    End Sub
-
-    Private Sub printDoc_PrintPage(ByVal sender As Object, ByVal e As PrintPageEventArgs)
         ' Determine the file type based on the file extension
-        Dim fileExtension As String = System.IO.Path.GetExtension(filePath).ToLower()
+        Dim fileExtension As String = System.IO.Path.GetExtension(filename).ToLower()
 
         Select Case fileExtension
-            'Case ".pdf"
-            '    ' Print a PDF file
-            '    Dim pdfDoc As New iTextSharp.text.pdf.PdfDocument(filePath)
-            '    pdfDoc.Print(e.Graphics)
+            Case ".pdf"
+                ' Print a PDF file
+                ' required nugget PdfiumViewer
+                ' required nugget PdfiumViewer.Native.x86_64.v8-xfa
+                Using pdf = PdfDocument.Load(filename)
+                    Using printdoc = pdf.CreatePrintDocument()
+                        'AddHandler printdoc.EndPrint, AddressOf _printDoc_EndPrint
+
+                        printdoc.PrinterSettings.PrinterName = APP_CONFIG.printer1
+                        printdoc.Print()
+                    End Using
+                End Using
+
             'Case ".doc", ".docx"
             '    ' Print a Word document
             '    Dim wordApp As New Word.Application()
@@ -307,6 +293,7 @@ Public Class frmMain
             '    excelWB.PrintOut(From:=1, To:=1, Copies:=1, Preview:=False, ActivePrinter:=printDoc.PrinterSettings.PrinterName)
             '    excelWB.Close()
             '    excelApp.Quit()
+
             Case ".txt"
                 ' Print a plain text file
                 'Dim textLines() As String = System.IO.File.ReadAllLines(filePath)
@@ -314,10 +301,23 @@ Public Class frmMain
                 '    e.Graphics.DrawString(line, New Font("Arial", 12), Brushes.Black, 0, e.MarginBounds.Top)
                 '    e.MarginBounds.Y += 20
                 'Next
+
             Case Else
                 ' Unsupported file type
-                Throw New Exception("Unsupported file type: " & fileExtension)
+                ConsoleWriter.WriteToLog("Unsupported file type: " & fileExtension)
         End Select
+    End Sub
+
+    Private Sub _printDoc_PrintPage(sender As Object, e As PrintPageEventArgs) Handles _printDoc.PrintPage
+
+    End Sub
+
+    Private Sub _printDoc_BeginPrint(sender As Object, e As PrintEventArgs) Handles _printDoc.BeginPrint
+
+    End Sub
+
+    Private Sub _printDoc_EndPrint(sender As Object, e As PrintEventArgs) Handles _printDoc.EndPrint
+
     End Sub
 
     Private Sub _BG_DoWork(sender As Object, e As DoWorkEventArgs) Handles _BG.DoWork
@@ -342,6 +342,10 @@ Public Class frmMain
         server.Prefixes.Add($"http://localhost:{APP_CONFIG.listening_port}/")
         server.Start()
 
+        If Debugger.IsAttached Then
+            Process.Start("http://localhost:49956/")
+        End If
+
         While True
             Try
                 'TODO: dont forget to verify request
@@ -363,6 +367,7 @@ Public Class frmMain
 
                 ' receive local file path from query;
                 'ex http://localhost:49956/?filename=C:\Users\TAR1PROG1\Downloads\New%20folder\NCAAF%20-%20Sportsbettingstats.com_Scraper___Mark_Corenelius__08-11-2024.xlsx
+                'ex http://localhost:49956/?filename=C:\Users\TAR1PROG1\source\repos\PrintServer\bin\test.pdf
                 Dim fl = request.QueryString.Get("filename")
                 If String.IsNullOrWhiteSpace(fl) = False Then
                     ' check if file exists
@@ -373,7 +378,21 @@ Public Class frmMain
                         ' verify if printer is found/active/with error
                         ' send to selected printer
                         '
-                        'Print(APP_CONFIG.printer1, fl)
+                        Dim pr = request.QueryString.Get("printer")
+                        If String.IsNullOrWhiteSpace(pr) Then ' defaults to printer 1
+                            pr = "1"
+                        End If
+
+                        If pr = "1" Then
+                            Print(APP_CONFIG.printer1, fl)
+
+                        ElseIf pr = "2" Then
+                            Print(APP_CONFIG.printer2, fl)
+
+                        ElseIf pr = "3" Then
+                            Print(APP_CONFIG.printer3, fl)
+
+                        End If
 
                         SendResponse(response, "ok")
 

@@ -8,8 +8,8 @@
 - [x] Listening
 - [x] Responding
 - [x] Receiving File
+- [x] Printing to selected printer (PDF)
 - [ ] Printing to selected printer (TXT)
-- [ ] Printing to selected printer (PDF)
 
 **Sample Endpoint:**
 http://localhost:49956/?filename=C:\Data.pdf
