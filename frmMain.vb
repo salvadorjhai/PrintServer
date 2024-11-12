@@ -343,7 +343,7 @@ Public Class frmMain
         server.Start()
 
         If Debugger.IsAttached Then
-            Process.Start("http://localhost:49956/")
+            Process.Start($"http://localhost:{APP_CONFIG.listening_port}/")
         End If
 
         While True
