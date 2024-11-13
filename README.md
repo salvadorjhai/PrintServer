@@ -1,5 +1,3 @@
-# NO LONGER NEEDED. Found A solution 😒😒😒
-
 # PrintServer
 
 **Problem:** Cant print directly to printer from a browser based application (always needs a preview popup).
